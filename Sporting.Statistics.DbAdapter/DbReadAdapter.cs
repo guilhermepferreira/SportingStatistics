@@ -2,38 +2,24 @@
 using Sporting.Statistics.Domain.Adapters;
 using Sporting.Statistics.Domain.Models;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Sporting.Statistics.DbAdapter
 {
-    public class DbAdapter : IDbAdapter
+    public class DbReadAdapter : IDbReadAdapter
     {
         private readonly IDbConnection dbConnection;
 
-        static DbAdapter() =>
+        static DbReadAdapter() =>
             SqlMapper.AddTypeMap(typeof(string), DbType.AnsiString);
 
-        public DbAdapter(IDbConnection dbConnection)
+        public DbReadAdapter(IDbConnection dbConnection)
         {
-            this.dbConnection = dbConnection ?? 
+            this.dbConnection = dbConnection ??
                 throw new ArgumentNullException(nameof(dbConnection));
         }
-        public async Task InserirSeason(int seasonsResult)
-        {
-            await dbConnection.ExecuteAsync(
-                @"INSERT INTO seasons
-                        (Ano)
-	            VALUES (@Ano)",
-                  new
-                  {
-                      Ano = seasonsResult
-                  });
-        }
-
+        
         public async Task<Seasons> BuscarSeasons()
         {
             var result = await dbConnection.QueryAsync<Season>(
@@ -60,12 +46,30 @@ namespace Sporting.Statistics.DbAdapter
             return result;
         }
 
-        public async Task<League> BuscarLeague(int league)
+        public async Task<Guid> BuscarLeague(int identificadorLiga)
         {
-            var result = await dbConnection.QueryFirstOrDefaultAsync<League>(
+            var result = await dbConnection.QueryFirstOrDefaultAsync<Guid>(
                @"SELECT 
-                    A.
-                FROM seasons WHERE Ano = @season", param: new { league });
+                    Identificador
+                FROM Leagues WHERE IdLigaFornecedor = @identificadorLiga", param: new { identificadorLiga });
+            return result;
+        }
+
+        public async Task<Guid> BuscarLeagueType(string leagueType)
+        {
+            var result = await dbConnection.QueryFirstOrDefaultAsync<Guid>(
+               @"SELECT 
+                    Identificador
+                FROM Tipo WHERE Type = @leagueType", param: new { leagueType });
+            return result;
+        }
+
+        public async Task<Guid> BuscarIdentificadorPaisAsync(string nomePais)
+        {
+            var result = await dbConnection.QueryFirstOrDefaultAsync<Guid>(
+               @"SELECT 
+                    Identificador
+                FROM Country WHERE Nome = @nomePais", param: new { nomePais });
             return result;
         }
     }

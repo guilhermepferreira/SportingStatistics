@@ -14,5 +14,7 @@ namespace Sporting.Statistics.Domain.Models
 
         public bool Atual { get; set; }
 
+        public Coverage Coverage { get; set; }
+
     }
 }
