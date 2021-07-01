@@ -63,14 +63,14 @@ namespace Sporting.Statistics.WebApi.Controllers
         /// <response code="500">
         ///     Erro interno.
         /// </response>
-        [HttpGet("Leagues/{season}"), AllowAnonymous]
+        [HttpGet("Leagues"), AllowAnonymous]
         [ProducesResponseType(typeof(SeasonsGetResult), 200)]
         [ProducesResponseType(typeof(CoreException<CoreError>), 400)]
         [ProducesResponseType(typeof(InternalError), 500)]
-        public async Task GetAllLeaguesBySeason(int season)
+        public async Task GetAllLeaguesBySeason()
         {
             await sportingStatisticsServices
-            .GetAllLeaguesBySeason(season);
+            .GetAllLeaguesBySeason();
         }
     }
 }

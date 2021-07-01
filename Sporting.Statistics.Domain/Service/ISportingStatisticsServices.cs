@@ -1,7 +1,4 @@
 ﻿using Sporting.Statistics.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Sporting.Statistics.Domain.Service
@@ -16,9 +13,6 @@ namespace Sporting.Statistics.Domain.Service
         ///<sumary>
         /// Buscar todas as seasons.
         ///</sumary>
-        ///<param name="season">
-        /// Season para buscar as ligas.
-        /// </param>
-        Task GetAllLeaguesBySeason(int season);
+        Task GetAllLeaguesBySeason();
     }
 }

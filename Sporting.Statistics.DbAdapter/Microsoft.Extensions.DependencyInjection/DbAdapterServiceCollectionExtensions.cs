@@ -26,7 +26,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 return new SqlConnection(dbAdapterConfiguration.SqlConnectionString);
             });
 
-            services.AddScoped<IDbAdapter, DbAdapter>();
+            services.AddScoped<IDbReadAdapter, DbReadAdapter>();
+            services.AddScoped<IDbWriteAdapter, DbWriteAdapter>();
 
             return services;
         }

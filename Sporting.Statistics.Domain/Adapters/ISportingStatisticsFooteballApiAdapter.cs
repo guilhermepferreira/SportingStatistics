@@ -19,6 +19,5 @@ namespace Sporting.Statistics.Domain.Adapters
         /// Season para buscar todas as ligas.
         /// </param>
         Task<LeaguesResult> BuscarLeagueBySeason(Season season);
-
     }
 }
