@@ -59,5 +59,14 @@ namespace Sporting.Statistics.DbAdapter
                 FROM seasons WHERE Ano = @season", param: new { season });
             return result;
         }
+
+        public async Task<League> BuscarLeague(int league)
+        {
+            var result = await dbConnection.QueryFirstOrDefaultAsync<League>(
+               @"SELECT 
+                    A.
+                FROM seasons WHERE Ano = @season", param: new { league });
+            return result;
+        }
     }
 }

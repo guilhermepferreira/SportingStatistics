@@ -27,12 +27,12 @@ namespace Sporting.Statistics.FooteballApiAdapter
             {
                 var seasonLeaguesGet = mapper.Map<SeasonLeaguesGet>(season);
 
-                var seasonsGetResult = await footeballApi
+                var seasonLeaguesGetResult = await footeballApi
                     .GetAllLeaguesBySeason(seasonLeaguesGet);
 
-                var seasonsResult = mapper.Map<LeaguesResult>(seasonsGetResult);
+                var leagueResult = mapper.Map<LeaguesResult>(seasonLeaguesGetResult);
 
-                return seasonsResult;
+                return leagueResult;
             }
             catch (Exception e)
             {

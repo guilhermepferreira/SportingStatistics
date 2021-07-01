@@ -26,7 +26,7 @@ namespace Sporting.Statistics.Application
         {
             var seasonRetorno = await dbAdapter.BuscarSeason(season);
 
-            var seasonsApi = await countriesFooteballApiAdapter
+            var leaguesResult = await countriesFooteballApiAdapter
                 .BuscarLeagueBySeason(seasonRetorno);
         }
 

@@ -22,5 +22,10 @@ namespace Sporting.Statistics.Domain.Adapters
         /// Buscar Todas as Seasons
         ///</summary>
         Task<Season> BuscarSeason(int season);
+
+        ///<summary>
+        /// Buscar League
+        ///</summary>
+        Task<League> BuscarLeague(int league);
     }
 }
