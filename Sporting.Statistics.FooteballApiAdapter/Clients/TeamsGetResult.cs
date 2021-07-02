@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Sporting.Statistics.FooteballApiAdapter.Clients
 {
-    public class SeasonLeaguesGetResult : GetResultBase
+    public class TeamsGetResult : GetResultBase
     {
         [JsonProperty(PropertyName = "response")]
-        public IEnumerable<LeagueDto> Response { get; set; }
+        public IEnumerable<TeamsResult> Response { get; set; }
     }
 }

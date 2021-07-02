@@ -1,5 +1,6 @@
 ﻿using Sporting.Statistics.Domain.Models;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Sporting.Statistics.Domain.Adapters
@@ -20,6 +21,11 @@ namespace Sporting.Statistics.Domain.Adapters
         /// Buscar Todas as Seasons
         ///</summary>
         Task<Guid> BuscarLeague(int identificadorLiga);
+
+        ///<summary>
+        /// Buscar Todas as Seasons
+        ///</summary>
+        Task<IEnumerable<League>> BuscarLeaguesSeason(int season);
 
         ///<summary>
         /// Buscar Todas as Seasons

@@ -14,5 +14,10 @@ namespace Sporting.Statistics.Domain.Service
         /// Buscar todas as seasons.
         ///</sumary>
         Task GetAllLeaguesBySeason();
+
+        ///<sumary>
+        /// Buscar todas as seasons.
+        ///</sumary>
+        Task GetAllTeamsByLeagueSeason();
     }
 }

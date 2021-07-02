@@ -9,16 +9,16 @@ namespace Sporting.Statistics.Application
 {
     public class SportingStatisticsServices : ISportingStatisticsServices
     {
-        private readonly ISportingStatisticsFooteballApiAdapter countriesFooteballApiAdapter;
+        private readonly ISportingStatisticsFooteballApiAdapter footeballApiAdapter;
         private readonly IDbReadAdapter dbReadAdapter;
         private readonly IDbWriteAdapter dbWriteAdapter;
         public SportingStatisticsServices(ISportingStatisticsFooteballApiAdapter
-            countriesFooteballApiAdapter,
+            footeballApiAdapter,
             IDbReadAdapter dbReadAdapter,
             IDbWriteAdapter dbWriteAdapter)
         {
-            this.countriesFooteballApiAdapter = countriesFooteballApiAdapter ??
-                throw new ArgumentNullException(nameof(countriesFooteballApiAdapter));
+            this.footeballApiAdapter = footeballApiAdapter ??
+                throw new ArgumentNullException(nameof(footeballApiAdapter));
             
             this.dbReadAdapter = dbReadAdapter ??
                 throw new ArgumentNullException(nameof(dbReadAdapter));
@@ -32,7 +32,7 @@ namespace Sporting.Statistics.Application
             var seasonRetorno = await dbReadAdapter
                 .BuscarSeason(DateTime.Now.Year);
 
-            var leaguesResult = await countriesFooteballApiAdapter
+            var leaguesResult = await footeballApiAdapter
                 .BuscarLeagueBySeason(seasonRetorno);
 
             foreach (League league in leaguesResult.Response) 
@@ -99,7 +99,7 @@ namespace Sporting.Statistics.Application
         {
             var seasons = await dbReadAdapter.BuscarSeasons();
 
-            var seasonsApi = await countriesFooteballApiAdapter.BuscarSeasons();
+            var seasonsApi = await footeballApiAdapter.BuscarSeasons();
 
             foreach (int ano in seasonsApi.Seasons) 
             {
@@ -113,6 +113,17 @@ namespace Sporting.Statistics.Application
             seasons = await dbReadAdapter.BuscarSeasons();
 
             return seasons;
+        }
+
+        public async Task GetAllTeamsByLeagueSeason()
+        {
+            var leagues = await dbReadAdapter
+                .BuscarLeaguesSeason(DateTime.Now.Year);
+
+            foreach (League league in leagues)
+            {
+                footeballApiAdapter.BuscarTeamsByLeagueSeason(league);
+            }
         }
     }
 }

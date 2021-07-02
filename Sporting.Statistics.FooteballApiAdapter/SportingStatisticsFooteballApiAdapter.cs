@@ -55,5 +55,24 @@ namespace Sporting.Statistics.FooteballApiAdapter
                 throw e;
             }
         }
+
+        public async Task<LeaguesResult> BuscarTeamsByLeagueSeason(League league)
+        {
+            try
+            {
+                var teamLeagueSeasonGet = mapper.Map<TeamLeagueSeasonGet>(league);
+
+                var teamsGetResult = await footeballApi
+                    .GetAllTeamByLeagueSeason(teamLeagueSeasonGet);
+
+                var leagueResult = mapper.Map<LeaguesResult>(teamsGetResult);
+
+                return leagueResult;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 }

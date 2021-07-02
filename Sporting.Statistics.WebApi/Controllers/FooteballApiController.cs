@@ -72,5 +72,27 @@ namespace Sporting.Statistics.WebApi.Controllers
             await sportingStatisticsServices
             .GetAllLeaguesBySeason();
         }
+
+        /// <summary>
+        ///    Busca todas as seasons.
+        /// </summary>
+        /// <response code="200">
+        ///    Seasons retornadas.
+        /// </response>
+        /// <response code="400">
+        ///     Parametros incorretos ou limite de utilização excedido.
+        /// </response>
+        /// <response code="500">
+        ///     Erro interno.
+        /// </response>
+        [HttpGet("Teams"), AllowAnonymous]
+        [ProducesResponseType(typeof(SeasonsGetResult), 200)]
+        [ProducesResponseType(typeof(CoreException<CoreError>), 400)]
+        [ProducesResponseType(typeof(InternalError), 500)]
+        public async Task GetAllTeamsByLeagueSeason()
+        {
+            await sportingStatisticsServices
+            .GetAllTeamsByLeagueSeason();
+        }
     }
 }

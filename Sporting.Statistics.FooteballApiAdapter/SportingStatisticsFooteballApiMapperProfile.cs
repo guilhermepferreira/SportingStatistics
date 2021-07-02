@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Sporting.Statistics.FooteballApiAdapter.Clients;
 using Sporting.Statistics.Domain.Models;
+using System.Linq;
 
 namespace Sporting.Statistics.FooteballApiAdapter
 {
@@ -19,6 +20,9 @@ namespace Sporting.Statistics.FooteballApiAdapter
                 .ReverseMap();
             CreateMap<LeagueDto, League>().ReverseMap();
             CreateMap<LeagueSeasonsDto, LeagueSeasons>().ReverseMap();
+            CreateMap<League, TeamLeagueSeasonGet>()
+                .ForMember(a => a.league, o => o.MapFrom(s => s.Liga.IdentificadorLiga))
+                .ForMember(a => a.season, o => o.MapFrom(s => s.Seasons.FirstOrDefault().Ano));
 
         }
     }
