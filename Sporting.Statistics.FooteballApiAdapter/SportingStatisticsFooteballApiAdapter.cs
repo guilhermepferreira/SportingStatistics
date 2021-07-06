@@ -64,7 +64,7 @@ namespace Sporting.Statistics.FooteballApiAdapter
 
                 var teamsGetResult = await footeballApi
                     .GetAllTeamByLeagueSeason(teamLeagueSeasonGet);
-
+                //Ajeitar daqui pra baixo.
                 var leagueResult = mapper.Map<LeaguesResult>(teamsGetResult);
 
                 return leagueResult;
