@@ -2,6 +2,7 @@
 using Sporting.Statistics.Domain.Adapters;
 using Sporting.Statistics.Domain.Models;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 
@@ -70,6 +71,19 @@ namespace Sporting.Statistics.DbAdapter
                @"SELECT 
                     Identificador
                 FROM Country WHERE Nome = @nomePais", param: new { nomePais });
+            return result;
+        }
+
+        public async Task<IEnumerable<Country>> BuscarPaises()
+        {
+            var result = await dbConnection.QueryAsync<Country>(
+               @"SELECT 
+                    Identificador, 
+                    Nome,
+                    Codigo,
+                    Bandeira
+                FROM Country");
+
             return result;
         }
     }

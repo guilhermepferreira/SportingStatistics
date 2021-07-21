@@ -19,6 +19,8 @@ namespace Sporting.Statistics.FooteballApiAdapter
                 .ReverseMap();
             CreateMap<LeagueDto, League>().ReverseMap();
             CreateMap<LeagueSeasonsDto, LeagueSeasons>().ReverseMap();
+            CreateMap<CountriesGetResult, CountryResult>()
+             .ForMember(a => a.Countries, o => o.MapFrom(s => s.Response));
 
         }
     }

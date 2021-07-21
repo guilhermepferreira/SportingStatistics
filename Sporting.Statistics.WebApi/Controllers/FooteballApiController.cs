@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Otc.AspNetCore.ApiBoot;
 using Otc.DomainBase.Exceptions;
+using Sporting.Statistics.Domain.Models;
 using Sporting.Statistics.Domain.Service;
 using Sporting.Statistics.WebApi.Clients;
 
@@ -71,6 +72,28 @@ namespace Sporting.Statistics.WebApi.Controllers
         {
             await sportingStatisticsServices
             .GetAllLeaguesBySeason();
+        }
+
+        /// <summary>
+        ///    Busca todas as seasons.
+        /// </summary>
+        /// <response code="200">
+        ///    Seasons retornadas.
+        /// </response>
+        /// <response code="400">
+        ///     Parametros incorretos ou limite de utilização excedido.
+        /// </response>
+        /// <response code="500">
+        ///     Erro interno.
+        /// </response>
+        [HttpGet("Countries"), AllowAnonymous]
+        [ProducesResponseType(typeof(IEnumerable<Country>), 200)]
+        [ProducesResponseType(typeof(CoreException<CoreError>), 400)]
+        [ProducesResponseType(typeof(InternalError), 500)]
+        public async Task<IActionResult> GetAllCountries()
+        {
+            var countries = await sportingStatisticsServices.GetAllCountry();
+            return Ok(countries);
         }
     }
 }

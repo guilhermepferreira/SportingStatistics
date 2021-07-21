@@ -2,6 +2,7 @@
 using Sporting.Statistics.Domain.Models;
 using Sporting.Statistics.Domain.Service;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,16 +10,16 @@ namespace Sporting.Statistics.Application
 {
     public class SportingStatisticsServices : ISportingStatisticsServices
     {
-        private readonly ISportingStatisticsFooteballApiAdapter countriesFooteballApiAdapter;
+        private readonly ISportingStatisticsFooteballApiAdapter statisticsFooteballApiAdapter;
         private readonly IDbReadAdapter dbReadAdapter;
         private readonly IDbWriteAdapter dbWriteAdapter;
         public SportingStatisticsServices(ISportingStatisticsFooteballApiAdapter
-            countriesFooteballApiAdapter,
+            statisticsFooteballApiAdapter,
             IDbReadAdapter dbReadAdapter,
             IDbWriteAdapter dbWriteAdapter)
         {
-            this.countriesFooteballApiAdapter = countriesFooteballApiAdapter ??
-                throw new ArgumentNullException(nameof(countriesFooteballApiAdapter));
+            this.statisticsFooteballApiAdapter = statisticsFooteballApiAdapter ??
+                throw new ArgumentNullException(nameof(statisticsFooteballApiAdapter));
             
             this.dbReadAdapter = dbReadAdapter ??
                 throw new ArgumentNullException(nameof(dbReadAdapter));
@@ -32,7 +33,7 @@ namespace Sporting.Statistics.Application
             var seasonRetorno = await dbReadAdapter
                 .BuscarSeason(DateTime.Now.Year);
 
-            var leaguesResult = await countriesFooteballApiAdapter
+            var leaguesResult = await statisticsFooteballApiAdapter
                 .BuscarLeagueBySeason(seasonRetorno);
 
             foreach (League league in leaguesResult.Response) 
@@ -99,7 +100,7 @@ namespace Sporting.Statistics.Application
         {
             var seasons = await dbReadAdapter.BuscarSeasons();
 
-            var seasonsApi = await countriesFooteballApiAdapter.BuscarSeasons();
+            var seasonsApi = await statisticsFooteballApiAdapter.BuscarSeasons();
 
             foreach (int ano in seasonsApi.Seasons) 
             {
@@ -110,9 +111,28 @@ namespace Sporting.Statistics.Application
                 }
                 await dbWriteAdapter.InserirSeason(ano);
             }
-            seasons = await dbReadAdapter.BuscarSeasons();
 
-            return seasons;
+            return await dbReadAdapter.BuscarSeasons();
+        }
+
+        public async Task<IEnumerable<Country>> GetAllCountry()
+        {
+            var countries = await dbReadAdapter.BuscarPaises();
+
+            var countriesApi = await statisticsFooteballApiAdapter.BuscarPaises();
+
+            foreach(Country pais in countriesApi.Countries)
+            {
+                var inserted = countries is null ? null : countries.FirstOrDefault(m => m.Nome == pais.Nome);
+                if(inserted != null)
+                {
+                    continue;
+                }
+
+                await dbWriteAdapter.InserirPais(pais);
+            }
+
+            return await dbReadAdapter.BuscarPaises();
         }
     }
 }

@@ -40,6 +40,22 @@ namespace Sporting.Statistics.FooteballApiAdapter
             }
         }
 
+        public async Task<CountryResult> BuscarPaises()
+        {
+            try
+            {
+                var countriesGetResult = await footeballApi.GetAllCountries();
+                
+                var countryResult = mapper.Map<CountryResult>(countriesGetResult);
+
+                return countryResult;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
         public async Task<SeasonsResult> BuscarSeasons()
         {
             try
