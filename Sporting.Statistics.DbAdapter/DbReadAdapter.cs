@@ -74,6 +74,19 @@ namespace Sporting.Statistics.DbAdapter
             return result;
         }
 
+        public async Task<IEnumerable<Country>> BuscarPaises()
+        {
+            var result = await dbConnection.QueryAsync<Country>(
+               @"SELECT 
+                    Identificador, 
+                    Nome,
+                    Codigo,
+                    Bandeira
+                FROM Country");
+
+            return result;
+        }
+
         public async Task<IEnumerable<League>> BuscarLeaguesSeason(int season)
         {
             return await dbConnection.QueryAsync<League>(

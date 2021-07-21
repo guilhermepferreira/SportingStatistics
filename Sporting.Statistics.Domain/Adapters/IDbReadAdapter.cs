@@ -36,5 +36,10 @@ namespace Sporting.Statistics.Domain.Adapters
         /// Buscar Todas as Seasons
         ///</summary>
         Task<Guid> BuscarIdentificadorPaisAsync(string nomePais);
+
+        ///<summary>
+        /// Buscar Todos os países
+        ///</summary>
+        Task<IEnumerable<Country>> BuscarPaises();
     }
 }

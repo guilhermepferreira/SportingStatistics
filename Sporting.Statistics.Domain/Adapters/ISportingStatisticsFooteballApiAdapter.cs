@@ -20,6 +20,11 @@ namespace Sporting.Statistics.Domain.Adapters
         Task<LeaguesResult> BuscarLeagueBySeason(Season season);
 
         ///<sumary>
+        /// Buscar Países
+        ///</sumary>
+        Task<CountryResult> BuscarPaises();
+
+        ///<sumary>
         /// Buscar Seasons
         ///</sumary>
         ///<param name="league">
