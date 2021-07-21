@@ -2,8 +2,8 @@
 
 namespace Sporting.Statistics.Domain.Models
 {
-    public class SeasonsResult
+    public class CountryResult
     {
-        public IEnumerable<int> Seasons { get; set; }
+        public IEnumerable<Country> Countries { get; set; }
     }
 }

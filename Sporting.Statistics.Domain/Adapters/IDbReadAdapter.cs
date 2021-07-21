@@ -1,5 +1,6 @@
 ﻿using Sporting.Statistics.Domain.Models;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Sporting.Statistics.Domain.Adapters
@@ -30,5 +31,10 @@ namespace Sporting.Statistics.Domain.Adapters
         /// Buscar Todas as Seasons
         ///</summary>
         Task<Guid> BuscarIdentificadorPaisAsync(string nomePais);
+
+        ///<summary>
+        /// Buscar Todos os países
+        ///</summary>
+        Task<IEnumerable<Country>> BuscarPaises();
     }
 }

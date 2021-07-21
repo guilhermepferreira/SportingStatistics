@@ -14,6 +14,12 @@ namespace Sporting.Statistics.FooteballApiAdapter.Clients
         /// <summary>
         /// Busca todas as seasons.
         /// </summary>
+        [Get("/v3/countries")]
+        Task<CountriesGetResult> GetAllCountries();
+
+        /// <summary>
+        /// Busca todas as seasons.
+        /// </summary>
         [Get("/v3/leagues")]
         Task<SeasonLeaguesGetResult> GetAllLeaguesBySeason(
             [Query] SeasonLeaguesGet seasonLeaguesGet);
