@@ -2,7 +2,7 @@
 
 namespace Sporting.Statistics.FooteballApiAdapter.Clients
 {
-    public class TeamsResult
+    public class TeamsResultDto
     {
         [JsonProperty(PropertyName = "team")]
         public TeamDto Team { get; set; }

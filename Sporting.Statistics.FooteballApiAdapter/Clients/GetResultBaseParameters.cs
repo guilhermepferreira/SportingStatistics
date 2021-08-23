@@ -1,6 +1,6 @@
 ﻿namespace Sporting.Statistics.FooteballApiAdapter.Clients
 {
-    public class GetResultBase
+    public class GetResultBaseParameters
     {
         public string Get { get; set; }
 

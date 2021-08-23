@@ -152,5 +152,58 @@ namespace Sporting.Statistics.DbAdapter
                       Ano = seasonsResult
                   });
         }
+
+        public async Task<Guid> InserirTeam(Team team)
+        {
+            return await dbConnection.ExecuteScalarAsync<Guid>(
+                @"INSERT INTO Teams
+                        (IdFornecedor, IdentificadorPais, IdentificadorVenue, Nome, Fundado, Nacional, Logo)
+                output Inserted.Identificador
+	            VALUES (@IdFornecedor, @IdentificadorPais, @IdentificadorEstadio, @Nome, @Fundado, @Nacional, @Logo)",
+                  new
+                  {
+                      team.IdFornecedor,
+                      team.IdentificadorPais,
+                      team.IdentificadorEstadio,
+                      team.Nome,
+                      team.Fundado,
+                      team.Nacional,
+                      team.Logo,
+                  });
+        }
+
+        public async Task<Guid> InserirEstadio(Venue venue)
+        {
+            return await dbConnection.ExecuteScalarAsync<Guid>(
+                @"INSERT INTO Venue
+                        (IdFornecedor, Nome, Endereco, Cidade, Capacidade, Surface, Imagem)
+                output Inserted.Identificador
+	            VALUES (@IdFornecedor, @Nome, @Endereco, @Cidade, @Capacidade, @Surface, @Imagem)",
+                  new
+                  {
+                      venue.IdFornecedor,
+                      venue.Nome,
+                      venue.Endereco,
+                      venue.Cidade,
+                      venue.Capacidade,
+                      venue.Surface,
+                      venue.Imagem,
+                  });
+        }
+
+        public async Task InserirTeamLeagueSeason(
+            Team time, League league, Season season)
+        {
+            await dbConnection.ExecuteAsync(
+                @"INSERT INTO TeamLeagueSeason
+                        (IdentificadorTime, IdentificadorLiga, IdentificadorSeason, DataInsert)
+	            VALUES (@IdentificadorTime, @IdentificadorLiga, @IdentificadorSeason, GETDATE())",
+                  new
+                  {
+                      IdentificadorTime = time.Identificador,
+                      IdentificadorLiga = league.Identificador,
+                      IdentificadorSeason = season.Identificador,
+                  });
+        }
     }
 }

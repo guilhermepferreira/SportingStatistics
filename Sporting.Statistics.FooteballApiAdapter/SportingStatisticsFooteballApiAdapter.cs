@@ -3,6 +3,7 @@ using Sporting.Statistics.Domain.Adapters;
 using Sporting.Statistics.Domain.Models;
 using Sporting.Statistics.FooteballApiAdapter.Clients;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Sporting.Statistics.FooteballApiAdapter
@@ -72,7 +73,7 @@ namespace Sporting.Statistics.FooteballApiAdapter
             }
         }
 
-        public async Task<LeaguesResult> BuscarTeamsByLeagueSeason(League league)
+        public async Task<IEnumerable<TeamResult>> BuscarTeamsByLeagueSeason(League league)
         {
             try
             {
@@ -80,10 +81,10 @@ namespace Sporting.Statistics.FooteballApiAdapter
 
                 var teamsGetResult = await footeballApi
                     .GetAllTeamByLeagueSeason(teamLeagueSeasonGet);
-                //Ajeitar daqui pra baixo.
-                var leagueResult = mapper.Map<LeaguesResult>(teamsGetResult);
+                
+                var teamsResult = mapper.Map<Teams>(teamsGetResult);
 
-                return leagueResult;
+                return teamsResult.Times;
             }
             catch (Exception e)
             {
