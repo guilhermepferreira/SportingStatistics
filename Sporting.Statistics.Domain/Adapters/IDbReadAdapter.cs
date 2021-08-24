@@ -41,5 +41,15 @@ namespace Sporting.Statistics.Domain.Adapters
         /// Buscar Todos os países
         ///</summary>
         Task<IEnumerable<Country>> BuscarPaises();
+
+        ///<summary>
+        /// Buscar Todos os Times
+        ///</summary>
+        Task<IEnumerable<Team>> BuscarTimes();
+
+        ///<summary>
+        /// Buscar estadio.
+        ///</summary>
+        Task<Venue> BuscarEstadio(int idFornecedor);
     }
 }

@@ -2,6 +2,7 @@
 using Sporting.Statistics.FooteballApiAdapter.Clients;
 using Sporting.Statistics.Domain.Models;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Sporting.Statistics.FooteballApiAdapter
 {

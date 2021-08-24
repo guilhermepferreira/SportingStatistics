@@ -3,6 +3,7 @@ using Sporting.Statistics.Domain.Adapters;
 using Sporting.Statistics.Domain.Models;
 using Sporting.Statistics.FooteballApiAdapter.Clients;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Sporting.Statistics.FooteballApiAdapter

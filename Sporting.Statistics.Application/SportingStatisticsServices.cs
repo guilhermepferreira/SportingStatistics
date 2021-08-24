@@ -135,7 +135,7 @@ namespace Sporting.Statistics.Application
             return await dbReadAdapter.BuscarPaises();
         }
 
-        public async Task GetAllTeamsByLeagueSeason()
+        public async Task<IEnumerable<Team>> GetAllTeamsByLeagueSeason()
         {
             var leagues = await dbReadAdapter
                 .BuscarLeaguesSeason(DateTime.Now.Year);
@@ -159,6 +159,8 @@ namespace Sporting.Statistics.Application
                 }
                
             }
+
+            return await dbWriteAdapter.InserirEstadio(venue);
         }
     }
 }

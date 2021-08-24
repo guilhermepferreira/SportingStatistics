@@ -93,6 +93,9 @@ namespace Sporting.Statistics.DbAdapter
                @"
                 SELECT 
                     L.Identificador,
+                    L.IdentificadorPais,
+                    L.IdentificadorType as IdentificadorTipo,
+                    L.IdentificadorCoverage as IdentificadorCobertura,
                     L.IdLigaFornecedor as IdentificadorLiga,
                     L.Nome,
                     L.Logo,
@@ -160,6 +163,36 @@ namespace Sporting.Statistics.DbAdapter
                    season
                },
                splitOn: "IdentificadorLiga,Tipo,Ano,Eventos,Classificacao,Nome");
+        }
+
+        public async Task<IEnumerable<Team>> BuscarTimes()
+        {
+            return await dbConnection.QueryAsync<Team>(
+               @"SELECT 
+                    Identificador, 
+                    IdFornecedor, 
+                    IdentificadorPais, 
+                    IdentificadorVenue as IdentificadorEstadio, 
+                    Nome,
+                    Fundado,
+                    Nacional,
+                    Logo
+                FROM Teams");
+        }
+
+        public async Task<Venue> BuscarEstadio(int idFornecedor)
+        {
+            return await dbConnection.QueryFirstOrDefaultAsync<Venue>(
+               @"SELECT 
+                    Identificador, 
+                    IdFornecedor,
+                    Nome,
+                    Endereco,
+                    Cidade,
+                    Capacidade,
+                    Surface,
+                    Imagem
+                FROM Venue WHERE IdFornecedor = @idFornecedor", param: new { idFornecedor });
         }
     }
 }
