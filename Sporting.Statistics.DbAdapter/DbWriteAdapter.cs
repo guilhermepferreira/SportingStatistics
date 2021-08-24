@@ -152,5 +152,68 @@ namespace Sporting.Statistics.DbAdapter
                       Ano = seasonsResult
                   });
         }
+
+        public async Task InserirTeam(TeamInfo team)
+        {
+            await dbConnection.ExecuteAsync(
+                @"INSERT INTO Teams
+                        (IdentificadorPais,
+                            IdentificadorVenue,
+                            IdentificadorFornecedor,
+                            Nome,
+                            Ano,
+                            Nacional,
+                            Logo)
+	            VALUES (@IdentificadorPais,
+                        @IdentificadorVenue,
+                        @IdentificadorFornecedor,
+                        @Nome,
+                        @Ano,
+                        @Nacional,
+                        @Logo)",
+                  new
+                  {
+                      IdentificadorPais = team.IdentificadorCountry,
+                      IdentificadorVenue = team.IdentificadorVenue,
+                      IdentificadorFornecedor = team.IdentificadorFornecedor,
+                      Nome = team.Name,
+                      Ano = team.Founded,
+                      Nacional = team.National,
+                      Logo = team.Logo
+                  });
+        }
+
+        public async Task<Guid> InserirVenue(Venue venue)
+        {
+            var identificador = await dbConnection.ExecuteScalarAsync<Guid>(
+               @"INSERT INTO Venue
+                        (IdentificadorFornecedor,
+                         Nome,
+                         Endereco,
+                         Cidade,
+                         Capacidade,
+                         Surface,
+                         Imagem)
+                output Inserted.Identificador
+	            VALUES (@IdentificadorFornecedor,
+                        @Nome,
+                        @Endereco,
+                        @Cidade,
+                        @Capacidade,
+                        @Surface,
+                        @Imagem)",
+                 new
+                 {
+                     IdentificadorFornecedor = venue.IdentificadorFornecedor,
+                     Nome = venue.Name,
+                     Endereco = venue.Address,
+                     Cidade = venue.City,
+                     Capacidade = venue.Capacity,
+                     Surface = venue.Surface,
+                     Imagem = venue.Image,
+                 });
+
+            return identificador;
+        }
     }
 }

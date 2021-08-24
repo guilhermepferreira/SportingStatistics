@@ -63,10 +63,10 @@ namespace Sporting.Statistics.Application
 
         private async Task<Guid> InserirCoberturaAsync(Coverage cobertura)
         {
-            var identificadorPais = await dbWriteAdapter
+            var identificador = await dbWriteAdapter
                 .InserirCoverage(cobertura);
             
-            return identificadorPais;
+            return identificador;
         }
 
         private async Task<Guid> BuscarPais(Country pais)
@@ -140,9 +140,24 @@ namespace Sporting.Statistics.Application
             var leagues = await dbReadAdapter
                 .BuscarLeaguesSeason(DateTime.Now.Year);
 
+            var pais = await dbReadAdapter.BuscarPaises();
+
             foreach (League league in leagues)
             {
-                footeballApiAdapter.BuscarTeamsByLeagueSeason(league);
+               var times = await statisticsFooteballApiAdapter
+                    .BuscarTeamsByLeagueSeason(league);
+                
+                foreach (Team team in times.Times) 
+                {
+                    team.Time.IdentificadorVenue = await dbWriteAdapter
+                        .InserirVenue(team.Venue);
+
+                    team.Time.IdentificadorCountry = pais
+                        .FirstOrDefault(a => a.Nome == team.Time.Country).Identificador;
+
+                    await dbWriteAdapter.InserirTeam(team.Time);
+                }
+               
             }
         }
     }

@@ -72,7 +72,7 @@ namespace Sporting.Statistics.FooteballApiAdapter
             }
         }
 
-        public async Task<LeaguesResult> BuscarTeamsByLeagueSeason(League league)
+        public async Task<Teams> BuscarTeamsByLeagueSeason(League league)
         {
             try
             {
@@ -80,10 +80,10 @@ namespace Sporting.Statistics.FooteballApiAdapter
 
                 var teamsGetResult = await footeballApi
                     .GetAllTeamByLeagueSeason(teamLeagueSeasonGet);
-                //Ajeitar daqui pra baixo.
-                var leagueResult = mapper.Map<LeaguesResult>(teamsGetResult);
+                
+                var teams = mapper.Map<Teams>(teamsGetResult);
 
-                return leagueResult;
+                return teams;
             }
             catch (Exception e)
             {
