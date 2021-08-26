@@ -206,5 +206,19 @@ namespace Sporting.Statistics.DbAdapter
                 throw e;
             }
         }
+
+        public async Task<TeamLeagueSeason> BuscarTeamLeagueSeasonByTeam(
+            Guid identificadorTeam, Guid identificadorLeague, Guid identificadorSeason)
+        {
+            return await dbConnection.QueryFirstOrDefaultAsync<TeamLeagueSeason>(
+                   @"SELECT 
+                    IdentificadorTime as Team,
+                    IdentificadorLiga as League,
+                    IdentificadorSeason as Season
+                FROM TeamLeagueSeason WHERE 
+                    IdentificadorTime = @IdentificadorTeam
+                    AND IdentificadorLiga = @IdentificadorLeague", 
+                   param: new { identificadorTeam, identificadorLeague });
+        }
     }
 }

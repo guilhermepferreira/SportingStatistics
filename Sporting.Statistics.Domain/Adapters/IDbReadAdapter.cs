@@ -51,5 +51,11 @@ namespace Sporting.Statistics.Domain.Adapters
         /// Buscar estadio.
         ///</summary>
         Task<Venue> BuscarEstadio(int? idFornecedor);
+        
+        ///<summary>
+        /// Buscar estadio.
+        ///</summary>
+        Task<TeamLeagueSeason> BuscarTeamLeagueSeasonByTeam(
+            Guid identificadorTeam, Guid identificadorLeague, Guid identificadorSeason);
     }
 }

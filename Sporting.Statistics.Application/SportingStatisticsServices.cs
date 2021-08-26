@@ -142,6 +142,8 @@ namespace Sporting.Statistics.Application
                 var leagues = await dbReadAdapter
                     .BuscarLeaguesSeason(DateTime.Now.Year);
 
+                var season = await dbReadAdapter.BuscarSeason(DateTime.Now.Year);
+
                 foreach (League league in leagues)
                 {
                     var times = await dbReadAdapter.BuscarTimes();
@@ -156,6 +158,16 @@ namespace Sporting.Statistics.Application
 
                         if (inserted != null)
                         {
+                            var teamLeagueSeason = await dbReadAdapter
+                                .BuscarTeamLeagueSeasonByTeam(
+                                inserted.Identificador, league.Identificador,season.Identificador);
+
+                            if(teamLeagueSeason == null)
+                            {
+                                await dbWriteAdapter
+                                .InserirTeamLeagueSeason(inserted, league, season);
+                            }
+                            
                             continue;
                         }
 
@@ -176,7 +188,7 @@ namespace Sporting.Statistics.Application
                         timeResult.Time.Identificador =
                             await dbWriteAdapter.InserirTeam(timeResult.Time);
 
-                        var season = await dbReadAdapter.BuscarSeason(DateTime.Now.Year);
+                        
 
                         await dbWriteAdapter
                             .InserirTeamLeagueSeason(timeResult.Time, league, season);

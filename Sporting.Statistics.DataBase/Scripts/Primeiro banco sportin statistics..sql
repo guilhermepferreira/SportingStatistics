@@ -34,7 +34,7 @@ GO
 
 CREATE TABLE Leagues(
 Identificador Uniqueidentifier default newsequentialid() primary key NONCLUSTERED,
-IdLigaFornecedor INT NOT NULL,
+IdLigaFornecedor INT UNIQUE NOT NULL,
 Nome VARCHAR(MAX) NOT NULL,
 Logo VARCHAR(MAX) NOT NULL,
 Season INT NOT NULL,
