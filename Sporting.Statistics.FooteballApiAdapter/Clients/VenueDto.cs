@@ -5,7 +5,7 @@ namespace Sporting.Statistics.FooteballApiAdapter.Clients
     public class VenueDto
     {
         [JsonProperty(PropertyName = "id")]
-        public int Id { get; set; }
+        public int? Id { get; set; }
         [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
         [JsonProperty(PropertyName = "address")]

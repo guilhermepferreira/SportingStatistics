@@ -112,8 +112,8 @@ GO
 CREATE TABLE [dbo].[Teams](
 	[Identificador] [uniqueidentifier] NOT NULL,
 	[IdFornecedor] [int] NOT NULL,
-	[IdentificadorPais] [uniqueidentifier] NOT NULL,
-	[IdentificadorVenue] [uniqueidentifier] NOT NULL,
+	[IdentificadorPais] [uniqueidentifier] NULL,
+	[IdentificadorVenue] [uniqueidentifier] NULL,
 	[Nome] [varchar](MAX) NOT NULL,
 	[Fundado] [varchar](MAX) NULL,
 	[Nacional] [bit] NOT NULL,
@@ -165,7 +165,7 @@ ALTER TABLE [TeamLeagueSeason]  WITH CHECK ADD FOREIGN KEY([IdentificadorSeason]
 REFERENCES [Seasons] ([Identificador])
 GO
 
-ALTER TABLE [TeamLeagueSeason]  WITH CHECK ADD FOREIGN KEY([IdentificadorSeason])
+ALTER TABLE [TeamLeagueSeason]  WITH CHECK ADD FOREIGN KEY([IdentificadorTime])
 REFERENCES [Teams] ([Identificador])
 GO
 

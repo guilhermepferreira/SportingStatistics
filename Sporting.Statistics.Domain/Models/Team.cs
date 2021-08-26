@@ -8,9 +8,9 @@ namespace Sporting.Statistics.Domain.Models
     {
         public Guid Identificador { get; set; }
 
-        public Guid IdentificadorPais { get; set; }
+        public Guid? IdentificadorPais { get; set; }
 
-        public Guid IdentificadorEstadio { get; set; }
+        public Guid? IdentificadorEstadio { get; set; }
 
         public int IdFornecedor { get; set; }
        

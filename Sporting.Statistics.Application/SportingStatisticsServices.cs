@@ -137,52 +137,73 @@ namespace Sporting.Statistics.Application
 
         public async Task<IEnumerable<Team>> GetAllTeamsByLeagueSeason()
         {
-            var leagues = await dbReadAdapter
-                .BuscarLeaguesSeason(DateTime.Now.Year);
-
-            foreach (League league in leagues)
+            try
             {
-                var times = await dbReadAdapter.BuscarTimes();
-                var timesApi = await statisticsFooteballApiAdapter
-                    .BuscarTeamsByLeagueSeason(league);
+                var leagues = await dbReadAdapter
+                    .BuscarLeaguesSeason(DateTime.Now.Year);
 
-                foreach(TeamResult timeResult in timesApi) 
+                foreach (League league in leagues)
                 {
-                    var inserted = times is null ? null : times.FirstOrDefault(a => a.IdFornecedor == timeResult.Time.IdFornecedor);
-                    if(inserted != null)
+                    var times = await dbReadAdapter.BuscarTimes();
+
+                    var timesApi = await statisticsFooteballApiAdapter
+                        .BuscarTeamsByLeagueSeason(league);
+
+                    foreach (TeamResult timeResult in timesApi)
                     {
-                        continue;
+                        var inserted = times is null ? null : times
+                            .FirstOrDefault(a => a.IdFornecedor == timeResult.Time.IdFornecedor);
+
+                        if (inserted != null)
+                        {
+                            continue;
+                        }
+
+                        var identificadorPais = await dbReadAdapter
+                            .BuscarIdentificadorPaisAsync(timeResult.Time.Pais);
+
+                        if(identificadorPais != Guid.Empty)
+                        {
+                            timeResult.Time.IdentificadorPais = identificadorPais;
+                        }
+                        
+                        if(timeResult.Estadio?.IdFornecedor != null)
+                        {
+                            timeResult.Time.IdentificadorEstadio =
+                            await BuscarOuCriarEstadio(timeResult.Estadio);
+                        }
+                      
+                        timeResult.Time.Identificador =
+                            await dbWriteAdapter.InserirTeam(timeResult.Time);
+
+                        var season = await dbReadAdapter.BuscarSeason(DateTime.Now.Year);
+
+                        await dbWriteAdapter
+                            .InserirTeamLeagueSeason(timeResult.Time, league, season);
                     }
-
-                    var identificadorPais = await dbReadAdapter
-                        .BuscarIdentificadorPaisAsync(timeResult.Time.Pais);
-
-                    timeResult.Time.IdentificadorPais = identificadorPais;
-
-                    timeResult.Time.IdentificadorEstadio = 
-                        await BuscarOuCriarEstadio(timeResult.Estadio);
-
-                    timeResult.Time.Identificador =
-                        await dbWriteAdapter.InserirTeam(timeResult.Time);
-
-                    var season = await dbReadAdapter.BuscarSeason(DateTime.Now.Year);
-
-                    await dbWriteAdapter
-                        .InserirTeamLeagueSeason(timeResult.Time, league, season) ;
                 }
-            }
 
-            return await dbReadAdapter.BuscarTimes();
+                return await dbReadAdapter.BuscarTimes();
+            }
+            catch (Exception exception) 
+            {
+                throw exception;
+            }
         }
 
         private async Task<Guid> BuscarOuCriarEstadio(Venue venue)
         {
             var estadio = await dbReadAdapter
-                .BuscarEstadio(venue.IdFornecedor);
+                .BuscarEstadio(venue?.IdFornecedor);
 
             if(estadio != null)
             {
                 return estadio.Identificador;
+            }
+
+            if(venue.IdFornecedor == null)
+            {
+                var teste = venue;
             }
 
             return await dbWriteAdapter.InserirEstadio(venue);

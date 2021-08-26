@@ -155,21 +155,27 @@ namespace Sporting.Statistics.DbAdapter
 
         public async Task<Guid> InserirTeam(Team team)
         {
-            return await dbConnection.ExecuteScalarAsync<Guid>(
-                @"INSERT INTO Teams
+            try
+            {
+                return await dbConnection.ExecuteScalarAsync<Guid>(
+                    @"INSERT INTO Teams
                         (IdFornecedor, IdentificadorPais, IdentificadorVenue, Nome, Fundado, Nacional, Logo)
                 output Inserted.Identificador
 	            VALUES (@IdFornecedor, @IdentificadorPais, @IdentificadorEstadio, @Nome, @Fundado, @Nacional, @Logo)",
-                  new
-                  {
-                      team.IdFornecedor,
-                      team.IdentificadorPais,
-                      team.IdentificadorEstadio,
-                      team.Nome,
-                      team.Fundado,
-                      team.Nacional,
-                      team.Logo,
-                  });
+                      new
+                      {
+                          team.IdFornecedor,
+                          team.IdentificadorPais,
+                          team.IdentificadorEstadio,
+                          team.Nome,
+                          team.Fundado,
+                          team.Nacional,
+                          team.Logo,
+                      });
+            }catch(Exception e)
+            {
+                throw e;
+            }
         }
 
         public async Task<Guid> InserirEstadio(Venue venue)
@@ -194,16 +200,22 @@ namespace Sporting.Statistics.DbAdapter
         public async Task InserirTeamLeagueSeason(
             Team time, League league, Season season)
         {
-            await dbConnection.ExecuteAsync(
-                @"INSERT INTO TeamLeagueSeason
+            try
+            {
+                await dbConnection.ExecuteAsync(
+                    @"INSERT INTO TeamLeagueSeason
                         (IdentificadorTime, IdentificadorLiga, IdentificadorSeason, DataInsert)
 	            VALUES (@IdentificadorTime, @IdentificadorLiga, @IdentificadorSeason, GETDATE())",
-                  new
-                  {
-                      IdentificadorTime = time.Identificador,
-                      IdentificadorLiga = league.Identificador,
-                      IdentificadorSeason = season.Identificador,
-                  });
+                      new
+                      {
+                          IdentificadorTime = time.Identificador,
+                          IdentificadorLiga = league.Identificador,
+                          IdentificadorSeason = season.Identificador,
+                      });
+            }catch(Exception e)
+            {
+                throw e;
+            }
         }
     }
 }

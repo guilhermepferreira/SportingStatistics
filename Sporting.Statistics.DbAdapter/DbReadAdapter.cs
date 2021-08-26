@@ -67,11 +67,17 @@ namespace Sporting.Statistics.DbAdapter
 
         public async Task<Guid> BuscarIdentificadorPaisAsync(string nomePais)
         {
-            var result = await dbConnection.QueryFirstOrDefaultAsync<Guid>(
-               @"SELECT 
+            try
+            {
+                var result = await dbConnection.QueryFirstOrDefaultAsync<Guid>(
+                   @"SELECT 
                     Identificador
                 FROM Country WHERE Nome = @nomePais", param: new { nomePais });
-            return result;
+                return result;
+            } catch(Exception e)
+            {
+                throw e;
+            }
         }
 
         public async Task<IEnumerable<Country>> BuscarPaises()
@@ -180,10 +186,12 @@ namespace Sporting.Statistics.DbAdapter
                 FROM Teams");
         }
 
-        public async Task<Venue> BuscarEstadio(int idFornecedor)
+        public async Task<Venue> BuscarEstadio(int? idFornecedor)
         {
-            return await dbConnection.QueryFirstOrDefaultAsync<Venue>(
-               @"SELECT 
+            try
+            {
+                return await dbConnection.QueryFirstOrDefaultAsync<Venue>(
+                   @"SELECT 
                     Identificador, 
                     IdFornecedor,
                     Nome,
@@ -193,6 +201,10 @@ namespace Sporting.Statistics.DbAdapter
                     Surface,
                     Imagem
                 FROM Venue WHERE IdFornecedor = @idFornecedor", param: new { idFornecedor });
+            }catch(Exception e)
+            {
+                throw e;
+            }
         }
     }
 }
