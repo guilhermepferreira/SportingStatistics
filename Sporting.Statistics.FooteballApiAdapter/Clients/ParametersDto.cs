@@ -6,5 +6,8 @@ namespace Sporting.Statistics.FooteballApiAdapter.Clients
     {
         [JsonProperty(PropertyName = "season")]
         public string Season { get; set; }
+
+        [JsonProperty(PropertyName = "league")]
+        public string League { get; set; }
     }
 }

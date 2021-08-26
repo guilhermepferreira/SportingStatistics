@@ -11,7 +11,6 @@ namespace Sporting.Statistics.Domain.Adapters
         ///</sumary>
         Task<SeasonsResult> BuscarSeasons();
 
-
         ///<sumary>
         /// Buscar Seasons
         ///</sumary>
@@ -24,5 +23,13 @@ namespace Sporting.Statistics.Domain.Adapters
         /// Buscar Países
         ///</sumary>
         Task<CountryResult> BuscarPaises();
+
+        ///<sumary>
+        /// Buscar Seasons
+        ///</sumary>
+        ///<param name="league">
+        /// Season para buscar todas as ligas.
+        /// </param>
+        Task<IEnumerable<TeamResult>> BuscarTeamsByLeagueSeason(League league);
     }
 }

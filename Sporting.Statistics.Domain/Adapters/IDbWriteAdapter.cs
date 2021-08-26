@@ -45,5 +45,35 @@ namespace Sporting.Statistics.Domain.Adapters
         /// Dados a serem inseridos.
         ///</param>
         Task InserirLeague(League league);
+
+        ///<summary>
+        /// Inserir teams que faltam.
+        ///</summary>
+        ///<param name="team">
+        /// Dados a serem inseridos.
+        ///</param>
+        Task<Guid> InserirTeam(Team team);
+
+        ///<summary>
+        /// Inserir estadio que faltam.
+        ///</summary>
+        ///<param name="venue">
+        /// Dados a serem inseridos.
+        ///</param>
+        Task<Guid> InserirEstadio(Venue venue);
+
+        ///<summary>
+        /// Inserir estadio que faltam.
+        ///</summary>
+        ///<param name="time">
+        /// Dados a serem inseridos.
+        ///</param>
+        ///<param name="league">
+        /// Dados a serem inseridos.
+        ///</param>
+        ///<param name="season">
+        /// Dados a serem inseridos.
+        ///</param>
+        Task InserirTeamLeagueSeason(Team time, League league, Season season);
     }
 }

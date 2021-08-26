@@ -25,6 +25,11 @@ namespace Sporting.Statistics.Domain.Adapters
         ///<summary>
         /// Buscar Todas as Seasons
         ///</summary>
+        Task<IEnumerable<League>> BuscarLeaguesSeason(int season);
+
+        ///<summary>
+        /// Buscar Todas as Seasons
+        ///</summary>
         Task<Guid> BuscarLeagueType(string leagueType);
         
         ///<summary>
@@ -36,5 +41,15 @@ namespace Sporting.Statistics.Domain.Adapters
         /// Buscar Todos os países
         ///</summary>
         Task<IEnumerable<Country>> BuscarPaises();
+
+        ///<summary>
+        /// Buscar Todos os Times
+        ///</summary>
+        Task<IEnumerable<Team>> BuscarTimes();
+
+        ///<summary>
+        /// Buscar estadio.
+        ///</summary>
+        Task<Venue> BuscarEstadio(int? idFornecedor);
     }
 }
