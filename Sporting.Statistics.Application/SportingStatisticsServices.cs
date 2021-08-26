@@ -213,11 +213,6 @@ namespace Sporting.Statistics.Application
                 return estadio.Identificador;
             }
 
-            if(venue.IdFornecedor == null)
-            {
-                var teste = venue;
-            }
-
             return await dbWriteAdapter.InserirEstadio(venue);
         }
     }
