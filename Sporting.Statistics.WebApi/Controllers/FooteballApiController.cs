@@ -17,12 +17,23 @@ namespace Sporting.Statistics.WebApi.Controllers
     {
         private readonly IMapper mapper;
         private readonly ISportingStatisticsServices sportingStatisticsServices;
+        private readonly ITeamService teamService;
+        private readonly ILeagueService leagueService;
         public FooteballApiController(IMapper mapper,
-            ISportingStatisticsServices sportingStatisticsServices)
+            ISportingStatisticsServices sportingStatisticsServices,
+            ITeamService teamService,
+            ILeagueService leagueService)
         {
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+
             this.sportingStatisticsServices = sportingStatisticsServices ??
                 throw new ArgumentNullException(nameof(sportingStatisticsServices));
+            
+            this.teamService = teamService ??
+                throw new ArgumentNullException(nameof(teamService));
+            
+            this.leagueService = leagueService ??
+                throw new ArgumentNullException(nameof(leagueService));
         }
 
         /// <summary>
@@ -70,7 +81,7 @@ namespace Sporting.Statistics.WebApi.Controllers
         [ProducesResponseType(typeof(InternalError), 500)]
         public async Task GetAllLeaguesBySeason()
         {
-            await sportingStatisticsServices
+            await leagueService
             .GetAllLeaguesBySeason();
         }
 
@@ -112,10 +123,12 @@ namespace Sporting.Statistics.WebApi.Controllers
         [ProducesResponseType(typeof(SeasonsGetResult), 200)]
         [ProducesResponseType(typeof(CoreException<CoreError>), 400)]
         [ProducesResponseType(typeof(InternalError), 500)]
-        public async Task GetAllTeamsByLeagueSeason()
+        public async Task<IEnumerable<Team>> GetAllTeamsByLeagueSeason()
         {
-            await sportingStatisticsServices
+            var times = await teamService
             .GetAllTeamsByLeagueSeason();
+
+            return times;
         }
     }
 }

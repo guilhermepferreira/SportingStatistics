@@ -12,18 +12,8 @@ namespace Sporting.Statistics.Domain.Service
         Task<Seasons> GetAllSeason();
 
         ///<sumary>
-        /// Buscar todas as seasons.
-        ///</sumary>
-        Task GetAllLeaguesBySeason();
-
-        ///<sumary>
         /// Buscar todos os países.
         ///</sumary>
         Task<IEnumerable<Country>> GetAllCountry();
-
-        ///<sumary>
-        /// Buscar todas as seasons.
-        ///</sumary>
-        Task<IEnumerable<Team>> GetAllTeamsByLeagueSeason();
     }
 }
