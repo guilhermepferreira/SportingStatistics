@@ -15,6 +15,8 @@ namespace Sporting.Statistics.Application.Microsoft.Extensions.DependencyInjecti
                 throw new ArgumentNullException(nameof(services));
             }
             services.AddScoped<ISportingStatisticsServices, SportingStatisticsServices>();
+            services.AddScoped<ITeamService, TeamService>();
+            services.AddScoped<ILeagueService, LeagueService>();
 
             return services;
         }
